@@ -1,33 +1,31 @@
 package com.alura.test;
 
+import com.alura.model.Cliente;
 import com.alura.model.Conta;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class AlteraSaldo {
+public class ContaCliente {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("alura");
         EntityManager em = emf.createEntityManager();
 
-        Conta contaLeandro = em.find(Conta.class, 1L);
+        Conta conta = new Conta();
+        conta.setId(1L);
+
+        Cliente cliente = new Cliente();
+        cliente.setNome("Leandro2");
+        cliente.setEndereco("R. frança mota, 40");
+        cliente.setProfissao("Professor");
+        cliente.setConta(conta);
 
         em.getTransaction().begin();
 
-        contaLeandro.setSaldo(440.02);
+        em.persist(cliente);
 
         em.getTransaction().commit();
         em.close();
-
-        contaLeandro.setSaldo(333.2);
-
-        EntityManager em2 = emf.createEntityManager();
-
-        em2.getTransaction().begin();
-
-        em2.merge(contaLeandro);
-
-        em2.getTransaction().commit();
     }
 }
